@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace OOPGame
 {
-    public enum Direction
+    public interface IDrawedObject
     {
-        Up,
-        Down,
-        Right,
-        Left,
-        No
+        int X { get; set; }
+        int Y { get; set; }
+        int Width { get; }
+        int Height { get; }
     }
 }

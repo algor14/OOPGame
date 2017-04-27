@@ -1,12 +1,14 @@
 ﻿using NConsoleGraphics;
 
-namespace OOPGame {
+namespace OOPGame
+{
 
-  public interface IGameObject {
+    public interface IGameObject
+    {
 
-    void Render(ConsoleGraphics graphics);
+        void Render(ConsoleGraphics graphics);
 
-    void Update(GameEngine engine);
+        void Update(GameEngine engine);
 
-  }
+    }
 }

@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace OOPGame {
+namespace OOPGame
+{
 
-  public abstract class GameEngine {
+    public abstract class GameEngine
+    {
 
         private ConsoleGraphics graphics;
         private List<IGameObject> objects = new List<IGameObject>();
         private List<IGameObject> tempObjects = new List<IGameObject>();
         public string stage = "Menu";
 
-        public GameEngine(ConsoleGraphics graphics) {
+        public GameEngine(ConsoleGraphics graphics)
+        {
 
             this.graphics = graphics;
         }
@@ -26,9 +29,11 @@ namespace OOPGame {
             objects.Remove(obj);
         }
 
-        public virtual void Start() {
+        public virtual void Start()
+        {
 
-              while (true) {
+            while (true)
+            {
                 // Game Loop
                 for (int i = 0; i < objects.Count; i++)
                 {
@@ -41,13 +46,13 @@ namespace OOPGame {
                 // clearing screen before painting new frame
                 graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
                 foreach (var obj in objects)
-                  obj.Render(graphics);
+                    obj.Render(graphics);
 
                 // double buffering technique is used
                 graphics.FlipPages();
 
                 Thread.Sleep(25);
-              }
+            }
         }
-  }
+    }
 }

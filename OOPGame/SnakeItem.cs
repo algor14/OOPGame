@@ -7,18 +7,23 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    class SnakeItem
+    public class SnakeItem : IDrawedObject
     {
         private ConsoleImage image;
         public int X { get; set; }
         public int Y { get; set; }
-        public Direction direction = Direction.Left;
+        public int Width { get; }
+        public int Height { get; }
+        public Direction direction;
 
-        public SnakeItem(ConsoleGraphics graphics, int x, int y)
+        public SnakeItem(ConsoleGraphics graphics, int x, int y, Direction direction = Direction.Left)
         {
             X = x;
             Y = y;
             image = graphics.LoadImage("snakeLink.png");
+            Width = image.Width;
+            Height = image.Height;
+            this.direction = direction;
         }
 
         public void Render(ConsoleGraphics graphics)

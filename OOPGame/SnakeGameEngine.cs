@@ -5,12 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOPGame {
+namespace OOPGame
+{
 
-  public class SnakeGameEngine : GameEngine {
-        ConsoleGraphics graphics;
+    public class SnakeGameEngine : GameEngine
+    {
+        private ConsoleGraphics graphics;
         private IGameObject menu;
         private IGameObject snake;
+        private IGameObject loseMenu;
+        private IGameObject food;
+        private CollisionDetector collissionDetector;
+
         public SnakeGameEngine(ConsoleGraphics graphics)
             : base(graphics)
         {
@@ -27,13 +33,44 @@ namespace OOPGame {
         }*/
         public void StartGame()
         {
-            if(stage == "Menu")
+            if (stage == "Menu")
             {
                 stage = "Game";
                 RemoveObject(menu);
-                snake = new Snake(graphics);
+                collissionDetector = new CollisionDetector(graphics);
+                snake = new Snake(graphics, collissionDetector);
                 AddObject(snake);
-            }           
+                ThrowFood();
+            }
+        }
+
+        public void ThrowFood()
+        {
+            food = new Food(graphics, collissionDetector, snake);
+            AddObject(food);
+        }
+        public void EatFood()
+        {
+            RemoveObject(food);
+            ThrowFood();
+        }
+        public Food Food
+        {
+            get
+            {
+                return food as Food;
+            }
+        }
+
+        public void Lose()
+        {
+            if (stage == "Game")
+            {
+                stage = "LoseMenu";
+                RemoveObject(snake);
+                loseMenu = new LoseMenu(graphics);
+                AddObject(loseMenu);
+            }
         }
 
     }

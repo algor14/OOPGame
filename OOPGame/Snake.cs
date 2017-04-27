@@ -15,20 +15,61 @@ namespace OOPGame
         private int speed = 5;
         private CollisionDetector collissionDetector;
 
-        public Snake(ConsoleGraphics _graphics)
+        public Snake(ConsoleGraphics graph, CollisionDetector detector)
         {
-            this.graphics = _graphics;
+            graphics = graph;
+            collissionDetector = detector;
             snake.Add(new SnakeHead(graphics, 200, 200));
-            AddItem(4);
-            collissionDetector = new CollisionDetector(graphics);
+            AddLink2(4);
         }
 
-        public void AddItem( int howMuch  = 1)
+        public IDrawedObject this[int index]
+        {
+            get
+            {
+                return snake[index];
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return snake.Count;
+            }
+        }
+
+        public void AddLink(int howMuch = 1)
         {
             for (int i = 0; i < howMuch; i++)
             {
-                snake.Add(new SnakeItem(graphics, snake[snake.Count - 1].X + linkStep, snake[snake.Count - 1].Y));
-            }          
+                //snake.Add(new SnakeItem(graphics, snake[snake.Count - 1].X + linkStep, snake[snake.Count - 1].Y));
+            }
+        }
+
+        public void AddLink2(int howMuch = 1)
+        {
+            int xStep = 0;
+            int yStep = 0;
+            for (int i = 0; i < howMuch; i++)
+            {
+                switch (snake[snake.Count - 1].direction)
+                {
+                    case Direction.Left:
+                        xStep = linkStep;
+                        break;
+                    case Direction.Right:
+                        xStep = -linkStep;
+                        break;
+                    case Direction.Up:
+                        yStep = linkStep;
+                        break;
+                    case Direction.Down:
+                        yStep = -linkStep;
+                        break;
+                }
+                snake.Add(new SnakeItem(graphics, snake[snake.Count - 1].X + xStep, snake[snake.Count - 1].Y + yStep, snake[snake.Count - 1].direction));
+            }
         }
 
         public void Render(ConsoleGraphics graphics)
@@ -42,11 +83,23 @@ namespace OOPGame
             snake[0].Update(engine, null, speed);
             for (int i = snake.Count - 1; i > 0; i--)
             {
-                 snake[i].Update(engine, snake[i-1], speed);
+                snake[i].Update(engine, snake[i - 1], speed);
+                if (i > 3)
+                {
+                    if (collissionDetector.IsCollide(snake[0], snake[i]))
+                    {
+                        ((SnakeGameEngine)engine).Lose();
+                    }
+                }
             }
-            if(collissionDetector.checkWalls(snake[0]))
+            if (collissionDetector.IsCollide(snake[0], ((SnakeGameEngine)engine).Food))
             {
-                //Console.WriteLine("Lose game");
+                ((SnakeGameEngine)engine).EatFood();
+                AddLink2();
+            }
+            if (collissionDetector.checkWalls(snake[0]))
+            {
+                ((SnakeGameEngine)engine).Lose();
             }
         }
     }

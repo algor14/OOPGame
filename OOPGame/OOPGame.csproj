@@ -49,7 +49,10 @@
     <Compile Include="Background.cs" />
     <Compile Include="CollisionDetector.cs" />
     <Compile Include="Direction.cs" />
+    <Compile Include="Food.cs" />
+    <Compile Include="IDrawedObject.cs" />
     <Compile Include="IGameObject.cs" />
+    <Compile Include="LoseMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GameEngine.cs" />
@@ -63,6 +66,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="board.png" />
+    <Content Include="foodItem1.png" />
+    <Content Include="gameover.png" />
     <Content Include="pacman.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
