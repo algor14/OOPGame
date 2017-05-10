@@ -7,7 +7,7 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    class Snake : IGameObject
+    public class Snake : IGameObject
     {
         public ConsoleGraphics graphics;
         public List<SnakeItem> snake = new List<SnakeItem>();
@@ -20,7 +20,7 @@ namespace OOPGame
             graphics = graph;
             collissionDetector = detector;
             snake.Add(new SnakeHead(graphics, 200, 200));
-            AddLink2(4);
+            AddLink(4);
         }
 
         public IDrawedObject this[int index]
@@ -40,14 +40,6 @@ namespace OOPGame
         }
 
         public void AddLink(int howMuch = 1)
-        {
-            for (int i = 0; i < howMuch; i++)
-            {
-                //snake.Add(new SnakeItem(graphics, snake[snake.Count - 1].X + linkStep, snake[snake.Count - 1].Y));
-            }
-        }
-
-        public void AddLink2(int howMuch = 1)
         {
             int xStep = 0;
             int yStep = 0;
@@ -95,12 +87,13 @@ namespace OOPGame
             if (collissionDetector.IsCollide(snake[0], ((SnakeGameEngine)engine).Food))
             {
                 ((SnakeGameEngine)engine).EatFood();
-                AddLink2();
+                AddLink();
             }
             if (collissionDetector.checkWalls(snake[0]))
             {
                 ((SnakeGameEngine)engine).Lose();
             }
         }
+
     }
 }

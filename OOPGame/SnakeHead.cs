@@ -9,7 +9,7 @@ namespace OOPGame
 {
     class SnakeHead : SnakeItem
     {
-        private int pauseControl = 10; // delaye between key presses
+        private int pauseControl = 10; // delay between key presses
 
         public SnakeHead(ConsoleGraphics graphics, int x, int y) 
             : base(graphics, x, y)
@@ -18,7 +18,6 @@ namespace OOPGame
 
         public override void Update(GameEngine engine, SnakeItem prevItem, int speed)
         {
-            //base.Update(engine, prevDirection, speed);
             switch (direction)
             {
                 case Direction.Down:

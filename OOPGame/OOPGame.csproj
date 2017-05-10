@@ -52,27 +52,17 @@
     <Compile Include="Food.cs" />
     <Compile Include="IDrawedObject.cs" />
     <Compile Include="IGameObject.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="LoseMenu.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleBullet.cs" />
+    <Compile Include="ScoreManager.cs" />
     <Compile Include="SnakeGameEngine.cs" />
-    <Compile Include="SamplePlayer.cs" />
     <Compile Include="Snake.cs" />
     <Compile Include="SnakeHead.cs" />
     <Compile Include="SnakeItem.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="board.png" />
-    <Content Include="foodItem1.png" />
-    <Content Include="gameover.png" />
-    <Content Include="pacman.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="snakeLink.png" />
-    <Content Include="startgame.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

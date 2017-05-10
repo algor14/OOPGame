@@ -7,7 +7,7 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    class Background : IGameObject
+    public class Background : IGameObject
     {
         private ConsoleImage image;
 
@@ -19,7 +19,6 @@ namespace OOPGame
         {
             graphics.DrawImage(image, 0, 0);
         }
-
         public void Update(GameEngine engine)
         {
             

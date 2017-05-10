@@ -18,14 +18,9 @@ namespace OOPGame
 
         public bool checkWalls(SnakeItem item)
         {
-            if (item.X < 10 || item.X > graphics.ClientWidth - 10 || item.Y < 10 || item.Y > graphics.ClientHeight - 10)
-            {
+            if (item.X < 35 || item.X + item.Width > graphics.ClientWidth - 30 || item.Y < 35 || item.Y + item.Height > graphics.ClientHeight - 30)
                 return true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public bool IsCollide(IDrawedObject obj1, IDrawedObject obj2)

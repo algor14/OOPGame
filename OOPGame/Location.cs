@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace OOPGame
 {
-    public enum Direction
+    public enum Location
     {
-        Up,
-        Down,
-        Right,
-        Left
+        MainMenu,
+        Game,
+        LoseMenu
     }
 }
