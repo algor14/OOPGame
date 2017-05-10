@@ -9,11 +9,13 @@ namespace OOPGame
 {
     class SnakeHead : SnakeItem
     {
-        private int pauseControl = 10; // delay between key presses
+        private const int PAUSE_DELAY = 6;
+        private int pauseControl; // delay between key presses
 
-        public SnakeHead(ConsoleGraphics graphics, int x, int y) 
+        public SnakeHead(ConsoleGraphics graphics, int x, int y)
             : base(graphics, x, y)
         {
+            pauseControl = 0;
         }
 
         public override void Update(GameEngine engine, SnakeItem prevItem, int speed)
@@ -43,22 +45,22 @@ namespace OOPGame
                 if (Input.IsKeyDown(Keys.LEFT) && direction != Direction.Right)
                 {
                     direction = Direction.Left;
-                    pauseControl = 5;
+                    pauseControl = PAUSE_DELAY;
                 }
                 else if (Input.IsKeyDown(Keys.RIGHT) && direction != Direction.Left)
                 {
                     direction = Direction.Right;
-                    pauseControl = 5;
+                    pauseControl = PAUSE_DELAY;
                 }
                 else if (Input.IsKeyDown(Keys.UP) && direction != Direction.Down)
                 {
                     direction = Direction.Up;
-                    pauseControl = 5;
+                    pauseControl = PAUSE_DELAY;
                 }
                 else if (Input.IsKeyDown(Keys.DOWN) && direction != Direction.Up)
                 {
                     direction = Direction.Down;
-                    pauseControl = 5;
+                    pauseControl = PAUSE_DELAY;
                 }
             }
             else
