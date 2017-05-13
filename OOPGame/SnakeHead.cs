@@ -11,14 +11,16 @@ namespace OOPGame
     {
         private const int PAUSE_DELAY = 6;
         private int pauseControl; // delay between key presses
+        private CollisionDetector collissionDetector;
 
-        public SnakeHead(ConsoleGraphics graphics, int x, int y)
-            : base(graphics, x, y)
+        public SnakeHead(Snake snake, SnakeItem prevItem, CollisionDetector collissionDetector, ConsoleGraphics graphics, int x, int y)
+            : base(snake, prevItem, graphics, x, y)
         {
             pauseControl = 0;
+            this.collissionDetector = collissionDetector;
         }
 
-        public override void Update(GameEngine engine, SnakeItem prevItem, int speed)
+        public override void Update(GameEngine engine)
         {
             switch (direction)
             {
@@ -35,6 +37,14 @@ namespace OOPGame
                     X += speed;
                     break;
             }
+            //Check collisions
+            for (int i = snake.Count - 1; i > 3; i--)
+                if (collissionDetector.IsCollide(snake[0], snake[i]))
+                    snake.Lose();
+            if (collissionDetector.IsCollide(this, ((SnakeGameEngine)engine).Food))
+                ((SnakeGameEngine)engine).EatFood(snake.AddLink());
+            if (collissionDetector.checkWalls(this))
+                ((SnakeGameEngine)engine).Lose();
             HeadControl();
         }
 

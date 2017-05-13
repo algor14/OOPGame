@@ -7,16 +7,19 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    public class SnakeItem : IDrawedObject
+    public class SnakeItem : IDrawedObject, IGameObject
     {
         private ConsoleImage image;
+        protected Snake snake;
+        private SnakeItem prevItem;
+        protected int speed = 0;
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; }
         public int Height { get; }
         public Direction direction;
 
-        public SnakeItem(ConsoleGraphics graphics, int x, int y, Direction direction = Direction.Left)
+        public SnakeItem(Snake snake, SnakeItem prevItem, ConsoleGraphics graphics, int x, int y, Direction direction = Direction.Left)
         {
             X = x;
             Y = y;
@@ -24,6 +27,9 @@ namespace OOPGame
             Width = image.Width;
             Height = image.Height;
             this.direction = direction;
+            this.snake = snake;
+            this.prevItem = prevItem;
+            speed = snake.speed;
         }
 
         public void Render(ConsoleGraphics graphics)
@@ -31,7 +37,7 @@ namespace OOPGame
             graphics.DrawImage(image, X, Y);
         }
 
-        public virtual void Update(GameEngine engine, SnakeItem prevItem, int speed)
+        public virtual void Update(GameEngine engine)
         {
             switch (direction)
             {
@@ -48,11 +54,11 @@ namespace OOPGame
                     X += speed;
                     break;
             }
-            switch(prevItem.direction)
+            switch (prevItem.direction)
             {
                 case Direction.Down:
-                    if(direction != Direction.Down && prevItem.X == X)
-                            direction = prevItem.direction;
+                    if (direction != Direction.Down && prevItem.X == X)
+                        direction = prevItem.direction;
                     break;
                 case Direction.Up:
                     if (direction != Direction.Up && prevItem.X == X)
@@ -67,7 +73,7 @@ namespace OOPGame
                         direction = prevItem.direction;
                     break;
             }
-            
-        }
+
+        }        
     }
 }

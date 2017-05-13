@@ -14,9 +14,10 @@ namespace OOPGame
         private IGameObject mainMenu;
         private Snake snake;
         private IGameObject loseMenu;
-        private IGameObject food;
+        private Food food;
         private CollisionDetector collissionDetector;
         private ScoreManager scoreManager;
+        public Location stage = Location.MainMenu;
 
         public SnakeGameEngine(ConsoleGraphics graphics)
             : base(graphics)
@@ -48,8 +49,9 @@ namespace OOPGame
                 stage = Location.Game;
                 RemoveObject(mainMenu);
                 collissionDetector = new CollisionDetector(graphics);
-                snake = new Snake(graphics, collissionDetector);
-                AddObject(snake);
+                snake = new Snake(this, graphics, collissionDetector);
+                foreach (var item in snake.snake)
+                    AddObject(item);             
                 ThrowFood();
             }
         }
@@ -60,17 +62,18 @@ namespace OOPGame
             AddObject(food);
         }
 
-        public void EatFood()
+        public void EatFood(IGameObject obj)
         {
             RemoveObject(food);
             ThrowFood();
+            AddObject(obj);
         }
 
         public Food Food
         {
             get
             {
-                return food as Food;
+                return food;
             }
         }
 
@@ -80,7 +83,8 @@ namespace OOPGame
             {
                 scoreManager.SetScore(snake.Count * 50);
                 stage = Location.LoseMenu;
-                RemoveObject(snake);
+                foreach (var item in snake.snake)
+                    RemoveObject(item);
                 RemoveObject(food);
                 loseMenu = new LoseMenu(graphics);
                 AddObject(loseMenu);

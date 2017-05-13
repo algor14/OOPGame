@@ -18,11 +18,11 @@ namespace OOPGame
         private Snake snake;
         private ConsoleGraphics graphics;
 
-        public Food(ConsoleGraphics graphics, CollisionDetector collissionDetector, IGameObject snake)
+        public Food(ConsoleGraphics graphics, CollisionDetector collissionDetector, Snake snake)
         {
             this.graphics = graphics;
             this.collissionDetector = collissionDetector;
-            this.snake = snake as Snake;
+            this.snake = snake;
             image = graphics.LoadImage("foodItem1.png");
             Width = image.Width;
             Height = image.Height;
@@ -38,7 +38,7 @@ namespace OOPGame
         {
 
         }
-        public void SetCoordOfFood()
+        private void SetCoordOfFood()
         {
             bool rightPosition = false;           
             Random rnd = new Random();

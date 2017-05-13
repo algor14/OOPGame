@@ -7,20 +7,23 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    public class Snake : IGameObject
+    public class Snake
     {
         public ConsoleGraphics graphics;
         public List<SnakeItem> snake = new List<SnakeItem>();
         private int linkStep = 20;
-        private int speed = 5;
+        public int speed = 5;
         private CollisionDetector collissionDetector;
+        private SnakeGameEngine engine;
 
-        public Snake(ConsoleGraphics graph, CollisionDetector detector)
+        public Snake(SnakeGameEngine engine, ConsoleGraphics graph, CollisionDetector detector)
         {
             graphics = graph;
             collissionDetector = detector;
-            snake.Add(new SnakeHead(graphics, 200, 200));
-            AddLink(4);
+            this.engine = engine;
+            snake.Add(new SnakeHead(this, null, collissionDetector, graphics, 200, 200));
+            for (int i = 0; i < 4; i++)
+                AddLink();
         }
 
         public IDrawedObject this[int index]
@@ -39,60 +42,38 @@ namespace OOPGame
             }
         }
 
-        public void AddLink(int howMuch = 1)
+        public SnakeItem AddLink()
         {
             int xStep = 0;
             int yStep = 0;
-            for (int i = 0; i < howMuch; i++)
+            switch (snake[snake.Count - 1].direction)
             {
-                switch (snake[snake.Count - 1].direction)
-                {
-                    case Direction.Left:
-                        xStep = linkStep;
-                        break;
-                    case Direction.Right:
-                        xStep = -linkStep;
-                        break;
-                    case Direction.Up:
-                        yStep = linkStep;
-                        break;
-                    case Direction.Down:
-                        yStep = -linkStep;
-                        break;
-                }
-                snake.Add(new SnakeItem(graphics, snake[snake.Count - 1].X + xStep, snake[snake.Count - 1].Y + yStep, snake[snake.Count - 1].direction));
+                case Direction.Left:
+                    xStep = linkStep;
+                    break;
+                case Direction.Right:
+                    xStep = -linkStep;
+                    break;
+                case Direction.Up:
+                    yStep = linkStep;
+                    break;
+                case Direction.Down:
+                    yStep = -linkStep;
+                    break;
             }
+            SnakeItem snkLink = new SnakeItem(this, snake[Count - 1], graphics, snake[snake.Count - 1].X + xStep, snake[snake.Count - 1].Y + yStep, snake[snake.Count - 1].direction);
+            snake.Add(snkLink);
+            return snkLink;
         }
 
-        public void Render(ConsoleGraphics graphics)
+        public void EatFood()
         {
-            foreach (var obj in snake)
-                obj.Render(graphics);
+            engine.EatFood(AddLink());
         }
 
-        public void Update(GameEngine engine)
+        public void Lose()
         {
-            snake[0].Update(engine, null, speed);
-            for (int i = snake.Count - 1; i > 0; i--)
-            {
-                snake[i].Update(engine, snake[i - 1], speed);
-                if (i > 3)
-                {
-                    if (collissionDetector.IsCollide(snake[0], snake[i]))
-                    {
-                        ((SnakeGameEngine)engine).Lose();
-                    }
-                }
-            }
-            if (collissionDetector.IsCollide(snake[0], ((SnakeGameEngine)engine).Food))
-            {
-                ((SnakeGameEngine)engine).EatFood();
-                AddLink();
-            }
-            if (collissionDetector.checkWalls(snake[0]))
-            {
-                ((SnakeGameEngine)engine).Lose();
-            }
+            engine.Lose();
         }
 
     }

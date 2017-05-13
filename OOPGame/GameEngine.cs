@@ -11,7 +11,6 @@ namespace OOPGame
         private ConsoleGraphics graphics;
         private List<IGameObject> objects = new List<IGameObject>();
         private List<IGameObject> tempObjects = new List<IGameObject>();
-        public Location stage = Location.MainMenu;
 
         public GameEngine(ConsoleGraphics graphics)
         {
@@ -22,12 +21,20 @@ namespace OOPGame
         {
             tempObjects.Add(obj);
         }
-
+        public void AddObject(IGameObject[] objs)
+        {
+            foreach (var obj in objs)
+                tempObjects.Add(obj);
+        }
         public void RemoveObject(IGameObject obj)
         {
             objects.Remove(obj);
         }
-
+        public void RemoveObject(IGameObject[] objs)
+        {
+            foreach (var obj in objs)
+                tempObjects.Remove(obj);
+        }
         public virtual void Restart()
         {
             objects = new List<IGameObject>();
